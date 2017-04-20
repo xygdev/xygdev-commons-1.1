@@ -35,8 +35,6 @@
     <!-- 配置 工厂 Bean -->
     <bean id="RetValue" class="xygdev.commons.entity.PlsqlRetValue"/>
     <bean id="SqlResultSet" class="xygdev.commons.entity.SqlResultSet"/>
-    <bean id="Emp" class="xygdev.commons.entity.Emp"/>
-    
     <!-- 为 JdbcTemplate 装配本地原生的 JDBC 对象抽取器 -->
     <bean id="nativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" lazy-init="true"/>
 	<!-- 配置 DAO -->

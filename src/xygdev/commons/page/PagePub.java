@@ -102,7 +102,7 @@ public class PagePub extends DevJdbcDaoSupport {
 	    sb.append(",\"lastPageFlag\":\""+lastPageFlag+"\"");
 	    sb.append(",\"totalPages\":\""+totalPages+"\"");
 		sb.append(",\"rows\":");
-		sb.append(rs.toJsonStr());
+		sb.append(rs.toArrayStr());
 	    sb.append("}"); 
 	    //log(sb.toString());
 		return sb.toString();
@@ -116,7 +116,7 @@ public class PagePub extends DevJdbcDaoSupport {
 	 * @return String Json数据集合。例如：{"rows":[{xxx},{xxx}...]}
 	 */
 	public String qSqlForJson(String sql,Map<String,Object> paramMap) throws Exception{
-		return "{\"rows\":"+this.getDevJdbcTemplate().queryForResultSet(sql, paramMap).toJsonStr()+"}";
+		return this.getDevJdbcTemplate().queryForResultSet(sql, paramMap).toJsonStr();
 	}
 	
 	/*验证的不用封装也是可以的。

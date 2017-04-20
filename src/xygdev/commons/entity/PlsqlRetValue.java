@@ -12,7 +12,6 @@ import xygdev.commons.util.TypeConvert;
  * @author Sam.T 2016/4/26
  * @version 1.0
  */
-
 public class PlsqlRetValue implements FactoryBean<Object> {
 	//静态值，为用在PLSQL里面匹配参数用。
 	public static final String RETCODE="retcode";

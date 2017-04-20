@@ -84,10 +84,10 @@ public class InteractPub extends DevJdbcDaoSupport  {
 	    sb.append("{"); 
 	    if(resultSetH.getResultSet().size()>0){//存在数据
 		    sb.append("\"EXISTS\": \"Y\",\"rows\":{\"HEADER\":"); 
-		    sb.append(resultSetH.toJsonStr());
+		    sb.append(resultSetH.toArrayStr());
 	    	//行：
 			sb.append(",\"SEQ\":"); 
-		    sb.append(resultSetL.toJsonStr());
+		    sb.append(resultSetL.toArrayStr());
 		    sb.append("}");
 	    }else{//不存在数据
 		    sb.append("\"EXISTS\": \"N\",\"rows\":{}"); 
@@ -122,7 +122,7 @@ public class InteractPub extends DevJdbcDaoSupport  {
 		LogUtil.log("getIrrHead sql result:"+resultSet.getResultSet().size());
 	    if(resultSet.getResultSet().size()>0){//存在数据
 		    sb.append("{\"EXISTS\": \"Y\",\"rows\":"); 
-		    sb.append(resultSet.toJsonStr());
+		    sb.append(resultSet.toArrayStr());
 		    sb.append("}");
 	    }else{//不存在数据
 		    sb.append("{\"EXISTS\": \"N\",\"rows\":{}}"); 

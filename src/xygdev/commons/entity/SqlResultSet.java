@@ -16,6 +16,7 @@ import xygdev.commons.util.TypeConvert;
  */
 @SuppressWarnings("rawtypes")
 public class SqlResultSet implements FactoryBean {
+	public static String JSON_PROP = "rows";//转为JosnStr的默认属性名称
 	private String[] colName;
 	private List<Object[]> resultSet;//改为List，是为了让行数可以动态扩展。
 	
@@ -54,12 +55,12 @@ public class SqlResultSet implements FactoryBean {
 	}
 
 	/**
-	 * 这里自动转换为Json数据[{"aaa":"123"},{"BBB":444}]
-	 * 注意：是中括号[]括起来的结果。如果没数据返回，默认是：[]
+	 * 这里自动转换为Array字符形式的数组字符，例如：[{"aaa":"123"},{"BBB":444}]
+	 * 注意：是中括号[]括起来的结果。如果没数据返回，默认是空数组：[]
 	 * 2016.10.24的值改为type2JsonStr
-	 * @return String Json格式的数组。注意返回的是数组[]而不是单笔记录{}。
+	 * @return String 数组。注意返回的是数组[]而不是Json对象{}。
 	 */
-	public String toJsonStr(){
+	public String toArrayStr(){
 		StringBuffer sb=new StringBuffer();
 		sb.append("[");
 		if(this.getResultSet()!=null){
@@ -87,7 +88,18 @@ public class SqlResultSet implements FactoryBean {
 	}
 	
 	/**
-	 * 重写toString方法，这里自动转换为Json数据[{"aaa":"123"}]
+	 * 新增方法toJsonObjStr方法，直接返回一个完整的单个Josn对象：{"rows":[{"aaa":"123"},{"BBB":444}]}
+	 * @return Json对象格式
+	 */
+	public String toJsonStr(String s){
+		return "{\""+s+"\":"+toArrayStr()+"}";
+	}
+	public String toJsonStr(){
+		return toJsonStr(JSON_PROP);
+	}
+	
+	/**
+	 * 重写toString方法，这里自动转换为Json数据{"rows":[{"aaa":"123"},{"BBB":444}]}
 	 * @return String Json格式的数组
 	 */
 	@Override

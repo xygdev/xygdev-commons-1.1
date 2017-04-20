@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,7 @@ import org.springframework.util.Assert;
 
 import xygdev.commons.entity.PlsqlRetValue;
 import xygdev.commons.entity.SqlResultSet;
-import xygdev.commons.entity.Emp;
+import xygdev.commons.entity.EmpVO;
 import xygdev.commons.page.PagePub;
 import xygdev.commons.util.Constant;
 import xygdev.commons.util.TypeConvert;
@@ -25,6 +26,8 @@ import xygdev.commons.util.TypeConvert;
  */
 @Transactional(rollbackFor=Exception.class)
 public class DevJdbcTemplateTest extends DevJdbcDaoSupport {
+	@Autowired
+	PagePub pagePub;
 	//成员变量，方便测试用
 	private DevJdbcTemplate devJdbc;
 	private String sql;
@@ -42,27 +45,27 @@ public class DevJdbcTemplateTest extends DevJdbcDaoSupport {
 		System.out.println("rows:"+rows);
 		paramMap.clear();
 		//---------------queryForList
-		List<Emp> empList=new ArrayList<Emp>();
+		List<EmpVO> empList=new ArrayList<EmpVO>();
 		sql="select ROWNUM ROW_NUM,A.* from XYG_ALD_EMP A  where emp_id between :begin and :end";
 		paramMap.clear();
 		paramMap.put("begin", 1);
 		paramMap.put("end", 2);
 		try {
-			empList=devJdbc.queryForList(sql, paramMap,new Emp());
+			empList=devJdbc.queryForList(sql, paramMap,new EmpVO());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("empList:"+empList);
 		System.out.println("empList.size"+empList.size());
-		for(Emp emp:empList){
+		for(EmpVO emp:empList){
 			System.out.println("1 empID:"+emp.getEmpId()+",empName:"+emp.getEmpName());
 		}
 		//---------------queryForObject
-		Emp emp = new Emp();
+		EmpVO emp = new EmpVO();
 		sql="select * from XYG_ALD_EMP  where emp_id in (1)";
 		paramMap.clear();
 		try {
-			emp=devJdbc.queryForObject(sql, paramMap, new Emp());
+			emp=devJdbc.queryForObject(sql, paramMap, new EmpVO());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,8 +84,8 @@ public class DevJdbcTemplateTest extends DevJdbcDaoSupport {
 		System.out.println("2.1 empID:"+objArray[0]);//+",empName:"+objArray[1]+",enableDate:"+objArray[2]);
 		//---------------queryForResultSet
 		SqlResultSet rs=null;
-		sql="select EMP_ID,EMP_NUMBER,FULL_NAME,HIRE_DATE,MANAGER_FULL_NAME"
-				+ " from XYG_JBO_CRM_EMP_V  where emp_id in (83,278) AND 1=2";
+		sql="select USER_ID,USER_NAME,DESCRIPTION"
+				+ " from XYG_ALB2B_USER_V  where USER_ID in (3,4) AND 1=2";
 		paramMap.clear();
 		try{
 			rs=devJdbc.queryForResultSet(sql, paramMap);
@@ -93,11 +96,12 @@ public class DevJdbcTemplateTest extends DevJdbcDaoSupport {
 		System.out.println("1 rs:"+rs);
 		
 		//模拟分页的。注意，页面的栏位还是和数据库的栏位保持一致。		
-		sql="SELECT * FROM XYG_JBO_CRM_EMP_V";
-		sql=new PagePub().getPageSql(sql, "pageMinRow", "pageMaxRow");
+		sql="SELECT * FROM XYG_ALB2B_USER_V";
+		//sql=new PagePub().getPageSql(sql, "pageMinRow", "pageMaxRow");
+		sql=pagePub.getPageSql(sql, "pageMinRow", "pageMaxRow");
 		paramMap.clear();
-		paramMap.put("pageMinRow", 11);
-		paramMap.put("pageMaxRow", 12);
+		paramMap.put("pageMinRow", 1);
+		paramMap.put("pageMaxRow", 3);
 		try{
 			rs=devJdbc.queryForResultSet(sql, paramMap);
 		} catch(Exception e){
@@ -429,7 +433,7 @@ public class DevJdbcTemplateTest extends DevJdbcDaoSupport {
     		xygdev.commons.util.Constant.DEBUG_MODE = true;
     		int test1 =devJdbcTest.getDevJdbcTemplate().queryForInt("select count(*) from dual");
     		System.out.println("test1:"+test1);
-    		//devJdbcTest.queryTest();
+    		devJdbcTest.queryTest();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			//e.printStackTrace();
