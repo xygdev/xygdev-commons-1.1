@@ -75,7 +75,7 @@ public abstract class Scanner {
 	
 	public void start() {
 		if (!running) {
-			timer = new Timer("JFinal-Scanner", true);
+			timer = new Timer("XYGDEV-Scanner", true);
 			task = new TimerTask() {public void run() {working();}};
 			timer.schedule(task, 1010L * interval, 1010L * interval);
 			running = true;
