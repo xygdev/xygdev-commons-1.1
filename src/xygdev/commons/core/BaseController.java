@@ -28,6 +28,7 @@ public class BaseController {
 	protected HttpServletRequest request; 
     protected HttpServletResponse response; 
     protected HttpSession session; 
+    protected Long userId; 
     protected Long loginId; 
     
     @ModelAttribute 
@@ -38,6 +39,7 @@ public class BaseController {
         request.setCharacterEncoding(CHAR_ENCODE);
         request.setCharacterEncoding(CHAR_ENCODE);
         response.setContentType("text/html;charset="+CHAR_ENCODE);  
+	    userId=(Long)session.getAttribute("USER_ID");
 	    loginId=(Long)session.getAttribute("LOGIN_ID");
     }
 
