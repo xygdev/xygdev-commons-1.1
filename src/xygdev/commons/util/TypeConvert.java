@@ -75,6 +75,7 @@ public class TypeConvert {
         	}else if(x instanceof Clob ){
             	return type2Str((Clob)x).replaceAll("\"", "\\\\\"");
         	}else{
+        		x = type2Str(x).replaceAll("\\\\", "\\\\\\\\");//将对象中的所有反斜杠\替换为\\  add by Bird   2017.9.1
         		return type2Str(x).replaceAll("\"", "\\\\\"");
         	}
     	}
